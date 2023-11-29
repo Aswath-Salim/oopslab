@@ -153,7 +153,12 @@ case 2: result=a-b;
 break;
 case 3: result=a*b;
 break;
-case 4: result=a/b;
+case 4: 
+try {
+      if (b==0) { throw (new ArithmeticException("Error: Division by zero!"));}
+      result=a/b;
+     } catch (ArithmeticException error) {
+     t.setText(error.getMessage());}
 break;
 default: result=0;
 }
