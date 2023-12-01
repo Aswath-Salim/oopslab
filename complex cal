@@ -1,0 +1,156 @@
+import javax.swing.*;
+import java.awt.event.*;
+
+class ComplexNumberCalculator extends JFrame implements ActionListener {
+    JTextField real1Field, imag1Field, real2Field, imag2Field;
+    JLabel resultLabel;
+    JButton addButton, subButton, mulButton, divButton;
+
+    public ComplexNumberCalculator() {
+        setTitle("Complex Number Calculator");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+
+        JLabel complex1Label = new JLabel("Complex Number 1:");
+        complex1Label.setBounds(20, 20, 150, 20);
+        panel.add(complex1Label);
+
+        real1Field = new JTextField();
+        real1Field.setBounds(20, 50, 50, 20);
+        panel.add(real1Field);
+
+        JLabel plusLabel = new JLabel("+");
+        plusLabel.setBounds(80, 50, 10, 20);
+        panel.add(plusLabel);
+
+        imag1Field = new JTextField();
+        imag1Field.setBounds(100, 50, 50, 20);
+        panel.add(imag1Field);
+
+        JLabel iLabel1 = new JLabel("i");
+        iLabel1.setBounds(160, 50, 10, 20);
+        panel.add(iLabel1);
+
+        JLabel complex2Label = new JLabel("Complex Number 2:");
+        complex2Label.setBounds(20, 90, 150, 20);
+        panel.add(complex2Label);
+
+        real2Field = new JTextField();
+        real2Field.setBounds(20, 120, 50, 20);
+        panel.add(real2Field);
+
+        JLabel plusLabel2 = new JLabel("+");
+        plusLabel2.setBounds(80, 120, 10, 20);
+        panel.add(plusLabel2);
+
+        imag2Field = new JTextField();
+        imag2Field.setBounds(100, 120, 50, 20);
+        panel.add(imag2Field);
+
+        JLabel iLabel2 = new JLabel("i");
+        iLabel2.setBounds(160, 120, 10, 20);
+        panel.add(iLabel2);
+
+        addButton = new JButton("Add");
+        addButton.setBounds(20, 160, 80, 30);
+        addButton.addActionListener(this);
+        panel.add(addButton);
+
+        subButton = new JButton("Subtract");
+        subButton.setBounds(120, 160, 80, 30);
+        subButton.addActionListener(this);
+        panel.add(subButton);
+
+        mulButton = new JButton("Multiply");
+        mulButton.setBounds(220, 160, 90, 30);
+        mulButton.addActionListener(this);
+        panel.add(mulButton);
+
+        divButton = new JButton("Divide");
+        divButton.setBounds(320, 160, 80, 30);
+        divButton.addActionListener(this);
+        panel.add(divButton);
+
+        resultLabel = new JLabel("");
+        resultLabel.setBounds(20, 210, 380, 20);
+        panel.add(resultLabel);
+
+        add(panel);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        double real1 = Double.parseDouble(real1Field.getText());
+        double imag1 = Double.parseDouble(imag1Field.getText());
+        double real2 = Double.parseDouble(real2Field.getText());
+        double imag2 = Double.parseDouble(imag2Field.getText());
+
+        ComplexNumber c1 = new ComplexNumber(real1, imag1);
+        ComplexNumber c2 = new ComplexNumber(real2, imag2);
+
+        if (e.getSource() == addButton) {
+            ComplexNumber sum = c1.add(c2);
+            resultLabel.setText("Addition Result: " + sum.toString());
+        } else if (e.getSource() == subButton) {
+            ComplexNumber diff = c1.subtract(c2);
+            resultLabel.setText("Subtraction Result: " + diff.toString());
+        } else if (e.getSource() == mulButton) {
+            ComplexNumber product = c1.multiply(c2);
+            resultLabel.setText("Multiplication Result: " + product.toString());
+        } else if (e.getSource() == divButton) {
+            ComplexNumber quotient = c1.divide(c2);
+            resultLabel.setText("Division Result: " + quotient.toString());
+        }
+    }
+
+    class ComplexNumber {
+        private double real;
+        private double imag;
+
+        public ComplexNumber(double real, double imag) {
+            this.real = real;
+            this.imag = imag;
+        }
+
+        public ComplexNumber add(ComplexNumber other) {
+            double realSum = this.real + other.real;
+            double imagSum = this.imag + other.imag;
+            return new ComplexNumber(realSum, imagSum);
+        }
+
+        public ComplexNumber subtract(ComplexNumber other) {
+            double realDiff = this.real - other.real;
+            double imagDiff = this.imag - other.imag;
+            return new ComplexNumber(realDiff, imagDiff);
+        }
+
+        public ComplexNumber multiply(ComplexNumber other) {
+            double realProd = this.real * other.real - this.imag * other.imag;
+            double imagProd = this.real * other.imag + this.imag * other.real;
+            return new ComplexNumber(realProd, imagProd);
+        }
+
+        public ComplexNumber divide(ComplexNumber other) {
+            double divisor = other.real * other.real + other.imag * other.imag;
+            double realQuot = (this.real * other.real + this.imag * other.imag) / divisor;
+            double imagQuot = (this.imag * other.real - this.real * other.imag) / divisor;
+            return new ComplexNumber(realQuot, imagQuot);
+        }
+
+        public String toString() {
+            if (imag >= 0) {
+                return real + " + " + imag + "i";
+            } else {
+                return real + " - " + (-imag) + "i";
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ComplexNumberCalculator calculator = new ComplexNumberCalculator();
+        calculator.setVisible(true);
+    }
+}
