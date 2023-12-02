@@ -1,0 +1,26 @@
+import java.io.*;
+
+public class BinaryFileReaderWriter {
+    public static void main(String[] args) {
+        String inputFile = "input.bin"; // Replace with your input file name
+        String outputFile = "output.bin"; // Replace with your output file name
+
+        try (FileInputStream inputStream = new FileInputStream(inputFile);
+             FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            System.out.println("File has been copied successfully!");
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error reading/writing the file: " + e.getMessage());
+        }
+    }
+}
