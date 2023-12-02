@@ -1,0 +1,63 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class NumberSequenceCalculator extends JFrame implements ActionListener {
+    private JTextField currentNumberField, previousNumberField, nextNumberField;
+    private JLabel currentLabel, previousLabel, nextLabel;
+    private JButton calculateButton;
+
+    public NumberSequenceCalculator() {
+        setTitle("Number Sequence Calculator");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 200);
+        setLayout(new GridLayout(4, 2));
+
+        currentLabel = new JLabel("Enter a number:");
+        add(currentLabel);
+
+        currentNumberField = new JTextField();
+        add(currentNumberField);
+
+        previousLabel = new JLabel("Previous number:");
+        add(previousLabel);
+
+        previousNumberField = new JTextField();
+        previousNumberField.setEditable(false);
+        add(previousNumberField);
+
+        nextLabel = new JLabel("Next number:");
+        add(nextLabel);
+
+        nextNumberField = new JTextField();
+        nextNumberField.setEditable(false);
+        add(nextNumberField);
+
+        calculateButton = new JButton("Calculate");
+        calculateButton.addActionListener(this);
+        add(calculateButton);
+
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == calculateButton) {
+            try {
+                int currentNumber = Integer.parseInt(currentNumberField.getText());
+                int previousNumber = currentNumber - 1;
+                int nextNumber = currentNumber + 1;
+
+                previousNumberField.setText(String.valueOf(previousNumber));
+                nextNumberField.setText(String.valueOf(nextNumber));
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid number.");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new NumberSequenceCalculator());
+    }
+}
