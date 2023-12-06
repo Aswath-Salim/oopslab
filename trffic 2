@@ -1,0 +1,66 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class TrafficLightSimulator extends JFrame implements ActionListener {
+    private JRadioButton redButton, yellowButton, greenButton;
+    private JLabel lightLabel;
+
+    public TrafficLightSimulator() {
+        setTitle("Traffic Light Simulator");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(200, 300);
+        setLayout(new BorderLayout());
+
+        redButton = new JRadioButton("Red");
+        yellowButton = new JRadioButton("Yellow");
+        greenButton = new JRadioButton("Green");
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(redButton);
+        buttonGroup.add(yellowButton);
+        buttonGroup.add(greenButton);
+
+        redButton.addActionListener(this);
+        yellowButton.addActionListener(this);
+        greenButton.addActionListener(this);
+
+        JPanel radioPanel = new JPanel();
+        radioPanel.setLayout(new GridLayout(3, 1));
+        radioPanel.add(redButton);
+        radioPanel.add(yellowButton);
+        radioPanel.add(greenButton);
+
+        lightLabel = new JLabel();
+        lightLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        lightLabel.setPreferredSize(new Dimension(100, 100));
+        lightLabel.setOpaque(true);
+
+        JPanel labelPanel = new JPanel();
+        labelPanel.add(lightLabel);
+
+        add(labelPanel, BorderLayout.NORTH);
+        add(radioPanel, BorderLayout.CENTER);
+
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == redButton) {
+            lightLabel.setBackground(Color.RED);
+            lightLabel.setText("Red Light");
+        } else if (e.getSource() == yellowButton) {
+            lightLabel.setBackground(Color.YELLOW);
+            lightLabel.setText("Yellow Light");
+        } else if (e.getSource() == greenButton) {
+            lightLabel.setBackground(Color.GREEN);
+            lightLabel.setText("Green Light");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new TrafficLightSimulator());
+    }
+}
